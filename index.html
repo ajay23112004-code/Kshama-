@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation: Find The Secret ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #12000b, #30001c, #090009);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 92%;
+    max-width: 500px;
+    text-align: center;
+    padding: 25px;
+}
+
+.screen {
+    display: none;
+    animation: fade 0.7s ease;
+}
+
+.screen.active {
+    display: block;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+p {
+    line-height: 1.7;
+    color: #ffd9e8;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 25px;
+    padding: 25px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(255,0,100,0.15);
+}
+
+input {
+    width: 90%;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 16px;
+    margin: 15px 0;
+}
+
+button {
+    border: none;
+    padding: 13px 25px;
+    border-radius: 30px;
+    background: #ff3d81;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 8px;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.06);
+    background: #ff6298;
+}
+
+.clue {
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+.option {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    background: rgba(255,255,255,0.1);
+}
+
+.option:hover {
+    background: #ff3d81;
+}
+
+.success {
+    color: #7dffb2;
+    font-weight: bold;
+}
+
+.wrong {
+    color: #ff8ba7;
+    font-weight: bold;
+}
+
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 20px;
+    animation: float 5s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.big-heart {
+    font-size: 70px;
+    animation: heartbeat 1.2s infinite;
+}
+
+@keyframes heartbeat {
+    0%,100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.18);
+    }
+}
+
+.secret {
+    font-size: 19px;
+    color: #ffe6f0;
+}
+
+.progress {
+    font-size: 13px;
+    color: #ff9fbd;
+    margin-top: 15px;
+}
+
+.warning {
+    font-size: 13px;
+    color: #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SCREEN 1 -->
+    <div class="screen active" id="screen1">
+
+        <div class="big-heart">❤️</div>
+
+        <h1>Operation: Find The Secret</h1>
+
+        <div class="card">
+
+            <p>
+                Someone has hidden a secret message for little kshama.
+                🕵️‍♀️
+            </p>
+
+            <p>
+                There are several clues waiting for you.
+                Solve them one by one little kiki 💕 
+            </p>
+
+            <p>
+                <b>Only one person is allowed to complete this mission.</b>
+            </p>
+
+            <button onclick="nextScreen(2)">
+                Accept Mission 🔐
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 2 -->
+    <div class="screen" id="screen2">
+
+        <h2>🔐 Secret Entrance</h2>
+
+        <div class="card">
+
+            <p>
+                Every secret mission needs a password...
+            </p>
+
+            <p>
+                Hint:
+                <br><br>
+                “It's the name of the person who is reading this... ”
+            </p>
+
+            <input id="password" placeholder="Enter your name">
+
+            <button onclick="checkPassword()">
+                Unlock 🔓
+            </button>
+
+            <p id="passwordResult"></p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 3 -->
+    <div class="screen" id="screen3">
+
+        <h2>🕵️ Clue #1</h2>
+
+        <div class="card">
+
+            <div class="clue">
+                “I have beautiful voice
+                <br>
+                It's too lovely 😍 💞 
+                <br><br>
+                The voice make everyone jealous..
+                Guess who is that person...?"
+            </div>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                COCO 🧸 
+            </button>
+
+            <button class="option" onclick="correctAnswer(4)">
+                Kshama verma 💞 
+            </button>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                Idiot 🐕 
+            </button>
+
+            <p id="answer1"></p>
+
+            <div class="progress">
+                Clue 1 of 4
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 4 -->
+    <div class="screen" id="screen4">
+
+        <h2>🕵️ Clue #2</h2>
+
+        <div class="card">
+
+            <p>
+                Good job, detective taani 👍
+            </p>
+
+            <div class="clue">
+                “I am brown, big, child of goddess...
+                <br>
+                I have hands but no fingers..
+                <br><br>
+                Who am I?”
+            </div>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                👤 stalker
+            </button>
+
+            <button class="option" onclick="correctAnswer(5)">
+                🏞️ park
+            </button>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                🧸 coco 
+            </button>
+
+            <p id="answer2"></p>
+
+            <div class="progress">
+                Clue 2 of 4
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 5 -->
+    <div class="screen" id="screen5">
+
+        <h2>🕵️ Clue #3</h2>
+
+        <div class="card">
+
+            <p>
+                You're getting closer... 👀
+            </p>
+
+            <div class="clue">
+                “You cannot see me,
+                <br>
+                but you can feel me.
+                <br><br>
+                Sometimes I make your heart
+                beat faster.”
+            </div>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                🌧️ Rain
+            </button>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                💨 Wind
+            </button>
+
+            <button class="option" onclick="correctAnswer(6)">
+                ❤️ Love
+            </button>
+
+            <p id="answer3"></p>
+
+            <div class="progress">
+                Clue 3 of 4
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 6 -->
+    <div class="screen" id="screen6">
+
+        <h2>🕵️ Final Clue</h2>
+
+        <div class="card">
+
+            <p>
+                This one is different.
+                Don't rush. ❤️
+            </p>
+
+            <div class="clue">
+                “What is something that becomes
+                more valuable than anything in this world?"
+            </div>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                💰 Money
+            </button>
+
+            <button class="option" onclick="correctAnswer(7)">
+                ❤️ goddess of beauty (kshama)
+            </button>
+
+            <button class="option" onclick="wrongAnswer(this)">
+                🍫 Chocolate
+            </button>
+
+            <p id="answer4"></p>
+
+            <div class="progress">
+                Final clue
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 7 -->
+    <div class="screen" id="screen7">
+
+        <div class="big-heart">💗</div>
+
+        <h1>Mission Complete</h1>
+
+        <div class="card">
+
+            <p>
+                You solved every clue.
+            </p>
+
+            <p>
+                But there was actually something
+                hidden behind all those questions...
+            </p>
+
+            <button onclick="nextScreen(8)">
+                Reveal The Secret 👀
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 8 -->
+    <div class="screen" id="screen8">
+
+        <div class="big-heart">💖</div>
+
+        <h1>The Secret</h1>
+
+        <div class="card">
+
+            <p class="secret">
+                I could have simply sent you a message
+                saying that you're special to me...
+            </p>
+
+            <p class="secret">
+                But you're not someone I wanted to
+                impress with just another ordinary message.
+            </p>
+
+            <p class="secret">
+                So I made you a little adventure game... ❤️
+            </p>
+
+            <p class="secret">
+                And honestly...
+            </p>
+
+            <p class="secret">
+                <b>
+                    The real treasure wasn't hidden
+                    anywhere on this website.
+                </b>
+            </p>
+
+            <p class="secret">
+                It was you... kiki 🥺❤️
+            </p>
+
+            <button onclick="nextScreen(9)">
+                One Last Thing... 💌
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCREEN 9 -->
+    <div class="screen" id="screen9">
+
+        <div class="big-heart">💞</div>
+
+        <h1>For You</h1>
+
+        <div class="card">
+
+            <p class="secret">
+                I don't know exactly when it happened...
+            </p>
+
+            <p class="secret">
+                But somewhere between our conversations,
+                your silly moments, your smile,
+                and the way you became part of my thoughts...
+            </p>
+
+            <p class="secret">
+                You became someone I genuinely
+                don't want to lose...
+            </p>
+
+            <p class="secret">
+                So here's my final message:
+            </p>
+
+            <h2>
+                “You are my favourite notification...📱❤️"
+            </h2>
+
+            <p>
+                Mission completed.
+                <br>
+                But hopefully... this isn't the end. ❤️
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function nextScreen(number) {
+
+    document.querySelectorAll(".screen").forEach(function(screen) {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById("screen" + number)
+        .classList.add("active");
+
+    window.scrollTo(0,0);
+}
+
+
+function checkPassword() {
+
+    let input = document
+        .getElementById("password")
+        .value
+        .trim();
+
+    let result =
+        document.getElementById("passwordResult");
+
+    if(input.length > 0) {
+
+        result.innerHTML =
+            "<span class='success'>Access granted! 🔓❤️</span>";
+
+        setTimeout(function() {
+            nextScreen(3);
+        }, 800);
+
+    } else {
+
+        result.innerHTML =
+            "<span class='wrong'>Detective needs a name first 😭</span>";
+    }
+}
+
+
+function wrongAnswer(button) {
+
+    button.style.transform = "translateX(10px)";
+
+    setTimeout(function() {
+        button.style.transform = "translateX(-10px)";
+    }, 100);
+
+    setTimeout(function() {
+        button.style.transform = "translateX(0)";
+    }, 200);
+
+    alert("Nope! 😏 Try again.");
+}
+
+
+function correctAnswer(next) {
+
+    alert("Correct! 🥰 You found the clue!");
+
+    nextScreen(next);
+}
+
+
+/* Floating hearts */
+
+function createHeart() {
+
+    let heart = document.createElement("div");
+
+    heart.className = "heart";
+
+    heart.innerHTML =
+        ["❤️","💗","💖","💕","💘"]
+        [Math.floor(Math.random() * 5)];
+
+    heart.style.left =
+        Math.random() * 100 + "vw";
+
+    heart.style.animationDuration =
+        (3 + Math.random() * 4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(function() {
+        heart.remove();
+    }, 7000);
+}
+
+setInterval(createHeart, 700);
+
+</script>
+
+</body>
+</html>
